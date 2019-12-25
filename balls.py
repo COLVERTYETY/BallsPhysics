@@ -147,7 +147,7 @@ class ball(object):
             self.y=my+self.offy
 
     def placeback(self):
-        if self.carried==True:
+        if self.carried:
             ball.carriedarray.remove(self)
             self.carried=False
     def pickup(self,mx,my):
@@ -159,7 +159,7 @@ class ball(object):
             self.offy=self.y-my
     @staticmethod
     def rpopulate(x):
-        for i in range(x):
+        for _ in range(x):
             ball.theballs.append(ball(np.random.randint(0,ball.WIDTH),np.random.randint(0,ball.HEIGHT),np.random.randint(10,80)))
     @staticmethod
     def drawall(mx,my):
