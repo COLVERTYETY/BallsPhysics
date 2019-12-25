@@ -4,7 +4,6 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"      
-  - "latest"
 install:
   - pip install pygame
   - pip install numpy
