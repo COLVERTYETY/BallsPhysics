@@ -142,7 +142,7 @@ class ball(object):
             self.uax=0
             self.uay=0
     def beingcarried(self,mx,my):
-        if self.carried==True:
+        if self.carried:
             self.x=mx+self.offx
             self.y=my+self.offy
 
