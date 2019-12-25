@@ -1,0 +1,14 @@
+language: python
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"      
+  - "latest"
+install:
+  - pip install pygame
+  - pip install numpy
+  
+script:
+  - balls.py
+  - environement.py
