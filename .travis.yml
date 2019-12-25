@@ -11,4 +11,4 @@ install:
   
 script:
   - python balls.py
-  - python environement.py
+  #- python environement.py
