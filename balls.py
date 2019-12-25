@@ -63,14 +63,14 @@ class ball(object):
         uax=int(self.uax*self.radius)
         uay=int(self.uay*self.radius)
         width=1
-        if self.carried==True:
+        if self.carried:
             width=0
         pygame.draw.circle(ball.SURFACE,(255,255,255),(x,y),self.radius,width)#draw circle
         if ((uvx!=0) or (uvy!=0)):
             pygame.draw.line(ball.SURFACE,(0,0,255),(x,y),(x+uvx,y+uvy),1)#draw speed
         if ((uax!=0) or (uay!=0)):
             pygame.draw.line(ball.SURFACE,(255,0,0),(x,y),(x+uax,y+uay),1)#draw acceleration
-        if self.applied==True:
+        if self.applied:
             pygame.draw.line(ball.SURFACE,(0,255,0),(self.x,self.y),(mx,my),3)
 
     def push(self):
@@ -99,7 +99,7 @@ class ball(object):
                     self.vy = self.vy+(p*i.radius*ball.MASSCOEF*ny)
 
     def apply(self):
-        if self.carried==False:
+        if not self.carried:
             self.vx+=self.ax
             self.vy+=self.ay
             self.ax=0
@@ -166,7 +166,7 @@ class ball(object):
         for i in ball.theballs:
             i.push()
             i.apply()
-            i.draw(mx,my)        
+            i.draw(mx,my)
     @staticmethod
     def checkpickup(mx,my):
         for i in ball.theballs:
@@ -186,5 +186,5 @@ class ball(object):
     @staticmethod
     def checkforcarried(mx,my):
         for i in ball.carriedarray:
-            i.beingcarried(mx,my)        
+            i.beingcarried(mx,my)
 
