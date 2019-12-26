@@ -17,8 +17,6 @@ class testballs(unittest.TestCase):
                 if i==j:
                     k+=1
             self.assertEqual(k,1)
-        
-
     def test_forces(self):
         balls.ball.theballs=[]
         balls.ball.rpopulate(100)
