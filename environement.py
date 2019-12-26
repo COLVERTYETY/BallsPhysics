@@ -11,7 +11,7 @@ balls.ball.SURFACE=screen
 balls.ball.WIDTH=WIDTH
 balls.ball.HEIGHT=HEIGHT
 balls.ball.border="wall"
-balls.ball.rpopulate(50)
+balls.ball.rpopulate(30)
 mx=0
 my=0
 while not done:

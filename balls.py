@@ -55,23 +55,24 @@ class ball(object):
                 self.y=0
                 self.vy*=-1
     def draw(self,mx,my):
-        self.unify()
-        x=int(self.x)
-        y=int(self.y)
-        uvx=int(self.uvx*self.radius)
-        uvy=int(self.uvy*self.radius)
-        uax=int(self.uax*self.radius)
-        uay=int(self.uay*self.radius)
-        width=1
-        if self.carried:
-            width=0
-        pygame.draw.circle(ball.SURFACE,(255,255,255),(x,y),self.radius,width)#draw circle
-        if ((uvx!=0) or (uvy!=0)):
-            pygame.draw.line(ball.SURFACE,(0,0,255),(x,y),(x+uvx,y+uvy),1)#draw speed
-        if ((uax!=0) or (uay!=0)):
-            pygame.draw.line(ball.SURFACE,(255,0,0),(x,y),(x+uax,y+uay),1)#draw acceleration
-        if self.applied:
-            pygame.draw.line(ball.SURFACE,(0,255,0),(self.x,self.y),(mx,my),3)
+        if ball.SURFACE!=0:
+            self.unify()
+            x=int(self.x)
+            y=int(self.y)
+            uvx=int(self.uvx*self.radius)
+            uvy=int(self.uvy*self.radius)
+            uax=int(self.uax*self.radius)
+            uay=int(self.uay*self.radius)
+            width=1
+            if self.carried:
+                width=0
+            pygame.draw.circle(ball.SURFACE,(255,255,255),(x,y),self.radius,width)#draw circle
+            if ((uvx!=0) or (uvy!=0)):
+                pygame.draw.line(ball.SURFACE,(0,0,255),(x,y),(x+uvx,y+uvy),1)#draw speed
+            if ((uax!=0) or (uay!=0)):
+                pygame.draw.line(ball.SURFACE,(255,0,0),(x,y),(x+uax,y+uay),1)#draw acceleration
+            if self.applied:
+                pygame.draw.line(ball.SURFACE,(0,255,0),(self.x,self.y),(mx,my),3)
 
     def push(self):
 
@@ -79,7 +80,10 @@ class ball(object):
             if i !=self:
                 distance = np.sqrt((self.x-i.x)*(self.x-i.x)+(self.y-i.y)*(self.y-i.y))
                 if distance<(self.radius+i.radius):
-                    pygame.draw.line(ball.SURFACE,(255,0,255),(self.x,self.y),(i.x,i.y))
+                    if ball.SURFACE!=0:
+                        pygame.draw.line(ball.SURFACE,(255,0,255),(self.x,self.y),(i.x,i.y))
+                    if distance==0:
+                        distance=0.0000001
                     #static collision
                     overlap = 0.5*(distance-i.radius-self.radius)
                     i.x-=overlap*(i.x-self.x)/distance
@@ -118,13 +122,12 @@ class ball(object):
         if distance<self.radius:
             self.applied=True
             ball.selectedarray.append(self)
-            pygame.draw.line(ball.SURFACE,(0,255,0),(self.x,self.y),(mx,my),3)
+            if ball.SURFACE !=0:
+                pygame.draw.line(ball.SURFACE,(0,255,0),(self.x,self.y),(mx,my),3)
     def forceselected(self,mx,my):
-        if self.applied:
-            self.applied=False
-            ball.selectedarray.remove(self)
-            self.ax+=(mx-self.x)/ball.COEF
-            self.ay+=(my-self.y)/ball.COEF
+        self.applied=False
+        self.ax+=(mx-self.x)/ball.COEF
+        self.ay+=(my-self.y)/ball.COEF
 
     def unify(self):
         self.mv = np.sqrt((self.vx*self.vx)+(self.vy*self.vy))
@@ -142,13 +145,10 @@ class ball(object):
             self.uax=0
             self.uay=0
     def beingcarried(self,mx,my):
-        if self.carried:
             self.x=mx+self.offx
             self.y=my+self.offy
 
     def placeback(self):
-        if self.carried:
-            ball.carriedarray.remove(self)
             self.carried=False
     def pickup(self,mx,my):
         distance = np.sqrt((self.x-mx)*(self.x-mx)+(self.y-my)*(self.y-my))
@@ -179,10 +179,12 @@ class ball(object):
     def checkforletgo(mx,my):
         for i in ball.selectedarray:
             i.forceselected(mx,my)
+        ball.selectedarray=[]
     @staticmethod
     def putback():
         for i in ball.carriedarray:
             i.placeback()
+        ball.carriedarray=[]
     @staticmethod
     def checkforcarried(mx,my):
         for i in ball.carriedarray:
