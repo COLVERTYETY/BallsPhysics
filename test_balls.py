@@ -1,6 +1,5 @@
 import unittest
 import balls
-import numpy as np
 
 class testballs(unittest.TestCase):
 
@@ -31,15 +30,13 @@ class testballs(unittest.TestCase):
             self.assertTrue(i.applied)
         balls.ball.checkforletgo(100,100)
         for i in balls.ball.selectedarray:
-            self.assertFalse(i.applied)   
+            self.assertFalse(i.applied)
         for i in balls.ball.theballs:
             self.assertEqual(round(i.ax,2),round(100/balls.ball.COEF,2))
             self.assertEqual(round(i.ay,2),round(100/balls.ball.COEF,2))
             i.apply()
             self.assertEqual(round(i.vx,2),round(100/balls.ball.COEF,2))
             self.assertEqual(round(i.vy,2),round(100/balls.ball.COEF,2))
-
-            
     def test_carry(self):
         balls.ball.theballs=[]
         balls.ball.rpopulate(10)
@@ -52,8 +49,5 @@ class testballs(unittest.TestCase):
         for i in balls.ball.theballs:
             self.assertEqual(i.x,i.y)
             self.assertEqual(i.x,100)
-
-
-
-if __name__ == '__main__': 
+if __name__ == '__main__':
     unittest.main()
